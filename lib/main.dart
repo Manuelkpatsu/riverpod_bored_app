@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'screens/activity_screen.dart';
+
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -32,7 +34,7 @@ class MyHomePage extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Bored App'),
       ),
-      body: const Center(child: Text('Home Page')),
+      body: const ActivityScreen(),
     );
   }
 }

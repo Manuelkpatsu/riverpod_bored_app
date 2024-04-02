@@ -4,6 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 
 final activityProvider = FutureProvider.autoDispose<Activity>((ref) async {
+  // We capture whether the provider is currently disposed or not.
+  var didDispose = false;
+  ref.onDispose(() => didDispose = true);
+
+  // We delay the request by 500ms, to wait for the user to stop refreshing.
+  await Future<void>.delayed(const Duration(milliseconds: 500));
+
+  // If the provider was disposed during the delay, it means that the user
+  // refreshed again. We throw an exception to cancel the request.
+  // It is safe to use an exception here, as it will be caught by Riverpod.
+  if (didDispose) {
+    throw Exception('Cancelled');
+  }
+
   // We create an HTTP client using package:http
   final client = http.Client();
   // On dispose, we close the client.
